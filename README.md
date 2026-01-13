@@ -1,7 +1,7 @@
 # Strategic-Market-Entry-Analysis-for-the-Mexican-Restaurant-Industry.-
 ![Market Entry Roadmap](Github%20Cover%20photo%20for%20restaurant%20analysis.png)
 In this analysis, I utilized Power BI to analyze 1,161 consumer ratings and identified high-ROI investment gaps in San Luis Potosí to support Market Entry Strategy and Investment Risk Mitigation.
-[Download Power BI Source File(.pbix)](Restaurant_Rating_Data_Analysis.pbix)
+To view the full interactive model, underlying DAX measures, and data transformations:**[Download Power BI Source File(.pbix)](Restaurant_Rating_Data_Analysis.pbix)**
 ## Project Objective: To determine the commercial viability and operational blueprint for a new culinary venture in Mexico.
 
 ### 1. Executive Summary
@@ -81,3 +81,29 @@ Establishes the average performance across all 1,161 rating entries to identify 
 
 ```dax
 Average Overall Rating = AVERAGE(Ratings[Overall_Rating])
+
+### 2. Demographic Bias Detection
+Quantifies the 82% student concentration and the 62% geographic bias in San Luis Potosí.
+Total Consumers = DISTINCTCOUNT(Consumers[Consumer_ID])
+% Students = 
+DIVIDE(
+    CALCULATE([Total Consumers], Consumers[Occupation] = "Student"), 
+    [Total Consumers], 
+    0
+)
+
+### 3. Supply & Demand Gap Analysis
+Calculates the deficit between consumer desire and active market competitors.
+Cuisine Demand = COUNT(Consumer_Preferences[Cuisine])
+
+Cuisine Supply = DISTINCTCOUNT(Restaurants[Restaurant_ID])
+
+Demand-Supply Gap = [Cuisine Demand] - [Cuisine Supply]
+
+### 4. Operational Strategy (The "Lean" Model)
+Used to verify the amenity requirements of the Top 10 performers.
+% With Alcohol Service = 
+DIVIDE(
+    CALCULATE([Cuisine Supply], Restaurants[Alcohol] <> "No_Alcohol_Served"), 
+    [Cuisine Supply]
+)
